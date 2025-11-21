@@ -41,12 +41,6 @@ class _PdfFormFillerState extends State<PdfFormFiller> {
         // Extract form fields data to JSON
         jasonData = extractFormFieldsToJson(document);
         _jsonController.text = _prettyJson(jasonData);
-        // Print the JSON data
-        print('PDF Form Fields JSON:');
-        print(JsonEncoder.withIndent('  ').convert(jasonData));
-
-        // Download JSON file
-        // downloadJsonFile(formData, 'pdf_form_data.json');
 
         document.dispose();
       });
@@ -58,37 +52,12 @@ class _PdfFormFillerState extends State<PdfFormFiller> {
   }
 
   void _updateFormData() {
-    try {
-      // final newData = json.decode(_jsonController.text);
-      // setState(() {
-      //   _formData = newData;
-      // });
-      // LocalStorageHelper.saveJsonData(_formData);
-    } catch (e) {
+    try {} catch (e) {
       _showMessage('Invalid JSON format');
     }
   }
 
-  Future<void> _savePdf() async {
-    // if (_filledPdfBytes == null) {
-    //   _showMessage('No PDF to save');
-    //   return;
-    // }
-
-    // try {
-    //   final blob = html.Blob([_filledPdfBytes!], 'application/pdf');
-    //   final url = html.Url.createObjectUrlFromBlob(blob);
-
-    //   final anchor = html.AnchorElement(href: url)
-    //     ..setAttribute('download', 'filled_form.pdf')
-    //     ..click();
-
-    //   html.Url.revokeObjectUrl(url);
-    //   _showMessage('PDF saved successfully');
-    // } catch (e) {
-    //   _showMessage('Error saving PDF: $e');
-    // }
-  }
+  Future<void> _savePdf() async {}
 
   void _showMessage(String message) {
     ScaffoldMessenger.of(
@@ -211,7 +180,7 @@ class _PdfFormFillerState extends State<PdfFormFiller> {
                         SizedBox(width: 8),
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: _updateFormData,
                             icon: Icon(Icons.edit_document),
                             label: Text('Fill Form'),
                             style: ElevatedButton.styleFrom(
@@ -370,34 +339,5 @@ class _PdfFormFillerState extends State<PdfFormFiller> {
     anchor.click();
     html.document.body!.children.remove(anchor);
     html.Url.revokeObjectUrl(url);
-  }
-}
-
-class LocalStorageHelper {
-  static const String _jsonDataKey = 'pdf_form_data';
-
-  static Future<void> saveJsonData(Map<String, dynamic> data) async {
-    try {
-      final encoded = json.encode(data);
-      html.window.localStorage[_jsonDataKey] = encoded;
-    } catch (e) {
-      print('Error saving to local storage: $e');
-    }
-  }
-
-  static Map<String, dynamic> loadJsonData() {
-    try {
-      final stored = html.window.localStorage[_jsonDataKey];
-      if (stored != null) {
-        return json.decode(stored);
-      }
-    } catch (e) {
-      print('Error loading from local storage: $e');
-    }
-    return {};
-  }
-
-  static void clearData() {
-    html.window.localStorage.remove(_jsonDataKey);
   }
 }
