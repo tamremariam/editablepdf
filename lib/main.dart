@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:typed_data';
+import 'PdfFormFiller.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
@@ -10,6 +11,20 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'PDF Form Filler',
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+      home: PdfFormFiller(),
+    );
+  }
+}
+
+//--- IGNORE ---
+class MyApp11 extends StatelessWidget {
+  const MyApp11({super.key});
 
   @override
   Widget build(BuildContext context) {
