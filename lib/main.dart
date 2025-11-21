@@ -35,11 +35,24 @@ class MyApp extends StatelessWidget {
                   // Load PDF document
                   final document = PdfDocument(inputBytes: bytes);
 
-                  // Extract text using PdfTextExtractor
-                  final textExtractor = PdfTextExtractor(document);
-                  String text = textExtractor.extractText();
-
-                  print("PDF Text:\n$text");
+                  // final PdfField radioButtonListField = document.form.fields[0];
+                  //print all filable fields with thire types and names with curesponding values
+                  for (int i = 0; i < document.form.fields.count; i++) {
+                    final PdfField field = document.form.fields[i];
+                    // print('Field ${i + 1}: ${field.runtimeType}');
+                    print('Field ${i + 1}: ${field.name}');
+                    if (field is PdfTextBoxField) {
+                      print(' - Value: ${field.text}');
+                    } else if (field is PdfCheckBoxField) {
+                      print(' - Value: ${field.isChecked}');
+                    } else if (field is PdfRadioButtonListField) {
+                      print(' - Selected Value: ${field.selectedValue}');
+                    } else if (field is PdfComboBoxField) {
+                      print(' - Selected Value: ${field.selectedValue}');
+                    } else if (field is PdfListBoxField) {
+                      print(' - Selected Values: ${field.selectedValues}');
+                    }
+                  }
 
                   document.dispose();
                 });
